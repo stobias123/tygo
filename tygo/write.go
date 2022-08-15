@@ -2,6 +2,7 @@ package tygo
 
 import (
 	"fmt"
+	"github.com/ettle/strcase"
 	"regexp"
 	"strings"
 
@@ -189,12 +190,25 @@ func (g *PackageGenerator) writeStructFields(s *strings.Builder, fields []*ast.F
 
 			jsonTag, err := tags.Get("json")
 			if err == nil {
-				name = jsonTag.Name
+				name = strcase.ToCamel(jsonTag.Name)
 				if name == "-" {
 					continue
 				}
 
 				optional = jsonTag.HasOption("omitempty")
+			}
+			jsonApiTag, err := tags.Get("jsonapi")
+			if err == nil {
+				if jsonApiTag.Name == "attr" || jsonApiTag.Name == "relation" {
+					name = strcase.ToCamel(jsonApiTag.Options[0])
+				} else {
+					name = strcase.ToCamel(jsonApiTag.Name)
+				}
+				if name == "-" {
+					continue
+				}
+
+				optional = jsonApiTag.HasOption("omitempty")
 			}
 			tstypeTag, err := tags.Get("tstype")
 			if err == nil {

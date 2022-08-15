@@ -35,3 +35,8 @@ type UserEntry struct {
 type ListUsersResponse struct {
 	Users []UserEntry `json:"users"`
 }
+
+type DumbExample struct {
+	PrimaryUser UserEntry   `jsonapi:"attr,user"`
+	Users       []UserEntry `jsonapi:"relation,users"`
+}

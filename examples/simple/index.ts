@@ -32,3 +32,7 @@ export interface UserEntry {
 export interface ListUsersResponse {
   users: UserEntry[];
 }
+export interface DumbExample {
+  user: UserEntry;
+  relation: UserEntry[];
+}
